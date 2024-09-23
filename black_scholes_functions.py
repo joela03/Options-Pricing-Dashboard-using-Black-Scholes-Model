@@ -72,3 +72,14 @@ def gamma(S, K, T, r, sigma):
     """Calculate's the greek gamma value"""
     d1, _ = calculate_d1_d2(S, K, T, r, sigma)
     return norm.pdf(d1) / (S * sigma * np.sqrt(T))
+
+
+def theta(S, K, T, r, sigma, option_type='call'):
+    d1, d2 = calculate_d1_d2(S, K, T, r, sigma)
+    first_term = -S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))
+    if option_type == 'call':
+        second_term = r * K * np.exp(-r * T) * norm.cdf(d2)
+        return first_term - second_term
+    elif option_type == 'put':
+        second_term = r * K * np.exp(-r * T) * norm.cdf(-d2)
+        return first_term + second_term
