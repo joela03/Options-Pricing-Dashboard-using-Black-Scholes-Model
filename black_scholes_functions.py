@@ -66,3 +66,9 @@ def delta(S, K, T, r, sigma, option_type='call'):
         return norm.cdf(d1)
     elif option_type == 'put':
         return norm.cdf(d1) - 1
+
+
+def gamma(S, K, T, r, sigma):
+    """Calculate's the greek gamma value"""
+    d1, _ = calculate_d1_d2(S, K, T, r, sigma)
+    return norm.pdf(d1) / (S * sigma * np.sqrt(T))
