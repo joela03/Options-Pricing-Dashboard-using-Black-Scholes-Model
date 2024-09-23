@@ -83,3 +83,8 @@ def theta(S, K, T, r, sigma, option_type='call'):
     elif option_type == 'put':
         second_term = r * K * np.exp(-r * T) * norm.cdf(-d2)
         return first_term + second_term
+
+
+def vega(S, K, T, r, sigma):
+    d1, _ = calculate_d1_d2(S, K, T, r, sigma)
+    return S * norm.pdf(d1) * np.sqrt(T)
