@@ -28,18 +28,41 @@ from scipy.stats import norm
 
 
 def calculate_d1_d2(S, K, T, r, sigma):
+    """Calculate's the intermediate variables"""
     d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
     return d1, d2
 
 
 def black_scholes_call(S, K, T, r, sigma):
+    """Calculate's value of european call option"""
     d1, d2 = calculate_d1_d2(S, K, T, r, sigma)
     call_price = S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
     return call_price
 
 
 def black_scholes_put(S, K, T, r, sigma):
+    """Calculates's value of european put option"""
     d1, d2 = calculate_d1_d2(S, K, T, r, sigma)
     put_price = K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
     return put_price
+
+# The "Greeks" are a set of financial metrics that describe how the price of
+# an option changes in response to various factors. They are essential tools
+# in options trading and risk management. Each Greek measures the sensitivity
+# of the option's price to a different underlying variable.
+
+# Delta: Sensitivity to price changes of the underlying asset.
+# Gamma: Sensitivity of Delta to price changes of the underlying asset.
+# Theta: Sensitivity to time decay.
+# Vega: Sensitivity to volatility changes.
+# Rho: Sensitivity to interest rate changes.
+
+
+def delta(S, K, T, r, sigma, option_type='call'):
+    """Calculate's the greek delta value"""
+    d1, _ = calculate_d1_d2(S, K, T, r, sigma)
+    if option_type == 'call':
+        return norm.cdf(d1)
+    elif option_type == 'put':
+        return norm.cdf(d1) - 1
