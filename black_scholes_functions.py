@@ -88,3 +88,11 @@ def theta(S, K, T, r, sigma, option_type='call'):
 def vega(S, K, T, r, sigma):
     d1, _ = calculate_d1_d2(S, K, T, r, sigma)
     return S * norm.pdf(d1) * np.sqrt(T)
+
+
+def rho(S, K, T, r, sigma, option_type='call'):
+    _, d2 = calculate_d1_d2(S, K, T, r, sigma)
+    if option_type == 'call':
+        return K * T * np.exp(-r * T) * norm.cdf(d2)
+    elif option_type == 'put':
+        return -K * T * np.exp(-r * T) * norm.cdf(-d2)
