@@ -75,6 +75,7 @@ def gamma(S, K, T, r, sigma):
 
 
 def theta(S, K, T, r, sigma, option_type='call'):
+    """Calculate's the greek theta value"""
     d1, d2 = calculate_d1_d2(S, K, T, r, sigma)
     first_term = -S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))
     if option_type == 'call':
@@ -86,11 +87,13 @@ def theta(S, K, T, r, sigma, option_type='call'):
 
 
 def vega(S, K, T, r, sigma):
+    """Calculate's the greek vega value"""
     d1, _ = calculate_d1_d2(S, K, T, r, sigma)
     return S * norm.pdf(d1) * np.sqrt(T)
 
 
 def rho(S, K, T, r, sigma, option_type='call'):
+    """Calculate's the greek rho value"""
     _, d2 = calculate_d1_d2(S, K, T, r, sigma)
     if option_type == 'call':
         return K * T * np.exp(-r * T) * norm.cdf(d2)
@@ -105,21 +108,22 @@ T = 1
 r = 0.05
 sigma = 0.2
 
-# Calculate option prices
-call_price = black_scholes_call(S, K, T, r, sigma)
-put_price = black_scholes_put(S, K, T, r, sigma)
+if __name__ == "__main__":
+    # Calculate option prices
+    call_price = black_scholes_call(S, K, T, r, sigma)
+    put_price = black_scholes_put(S, K, T, r, sigma)
 
-# Calculate Greeks
-delta_call = delta(S, K, T, r, sigma, option_type='call')
-gamma_value = gamma(S, K, T, r, sigma)
-theta_call = theta(S, K, T, r, sigma, option_type='call')
-vega_value = vega(S, K, T, r, sigma)
-rho_call = rho(S, K, T, r, sigma, option_type='call')
+    # Calculate Greeks
+    delta_call = delta(S, K, T, r, sigma, option_type='call')
+    gamma_value = gamma(S, K, T, r, sigma)
+    theta_call = theta(S, K, T, r, sigma, option_type='call')
+    vega_value = vega(S, K, T, r, sigma)
+    rho_call = rho(S, K, T, r, sigma, option_type='call')
 
-print(f"Call Option Price: {call_price:.2f}")
-print(f"Put Option Price: {put_price:.2f}")
-print(f"Delta (Call): {delta_call:.2f}")
-print(f"Gamma: {gamma_value:.2f}")
-print(f"Theta (Call): {theta_call:.2f}")
-print(f"Vega: {vega_value:.2f}")
-print(f"Rho (Call): {rho_call:.2f}")
+    print(f"Call Option Price: {call_price:.2f}")
+    print(f"Put Option Price: {put_price:.2f}")
+    print(f"Delta (Call): {delta_call:.2f}")
+    print(f"Gamma: {gamma_value:.2f}")
+    print(f"Theta (Call): {theta_call:.2f}")
+    print(f"Vega: {vega_value:.2f}")
+    print(f"Rho (Call): {rho_call:.2f}")
