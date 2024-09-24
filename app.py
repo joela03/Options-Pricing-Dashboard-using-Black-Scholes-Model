@@ -10,7 +10,7 @@ import os
 
 from load_financial_data import (read_sp500_table, fetch_current_stock_price,
                                  fetch_risk_free_rate)
-from black_scholes_functions import (calculate_d1_d2, black_scholes_call,
+from black_scholes_functions import (black_scholes_call,
                                      black_scholes_put, delta, gamma, theta, vega, rho)
 
 # Fetch list of stocks
@@ -58,5 +58,32 @@ app.layout = dbc.Container([
     Input('volatility', 'value'),
     Input('risk-free-rate', 'value')
 )
+def calculate_options_and_greeks(n_clicks, ticker, K, T, sigma, r):
+    if n_clicks == 0:
+        return ""
+
+    S = fetch_current_stock_price(ticker)
+    r = fetch_risk_free_rate()
+
+    call_price = black_scholes_call(S, K, T, r, sigma)
+    put_price = black_scholes_put(S, K, T, r, sigma)
+    delta_call = delta(S, K, T, r, sigma, option_type='call')
+    gamma_value = gamma(S, K, T, r, sigma)
+    theta_call = theta(S, K, T, r, sigma, option_type='call')
+    vega_value = vega(S, K, T, r, sigma)
+    rho_call = rho(S, K, T, r, sigma, option_type='call')
+
+    return html.Div([
+        html.P(f"Stock Price (S): {S:.2f}"),
+        html.P(f"Call Option Price: {call_price:.2f}"),
+        html.P(f"Put Option Price: {put_price:.2f}"),
+        html.P(f"Delta (Call): {delta_call:.2f}"),
+        html.P(f"Gamma: {gamma_value:.2f}"),
+        html.P(f"Theta (Call): {theta_call:.2f}"),
+        html.P(f"Vega: {vega_value:.2f}"),
+        html.P(f"Rho (Call): {rho_call:.2f}")
+    ])
+
+
 if __name__ == "__main__":
     app.run_server(debug=True)
