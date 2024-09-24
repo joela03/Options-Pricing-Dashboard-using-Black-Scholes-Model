@@ -38,7 +38,8 @@ app.layout = dbc.Container([
             html.Label("Risk-Free Rate (r)"),
             dcc.Input(id='risk-free-rate', type='number',
                       value=0.05, step=0.01),
-            html.Br()
+            html.Br(),
+            html.Button('Calculate', id='calculate-button', n_clicks=0)
         ], width=4)
     ])
 ])
