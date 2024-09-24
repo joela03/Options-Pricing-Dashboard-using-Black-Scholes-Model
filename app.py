@@ -27,7 +27,18 @@ app.layout = dbc.Container([
                 id='stock-dropdown',
                 options=[{'label': stock['name'], 'value': stock['ticker']}
                          for stock in sp500_list],
-                value='AAPL')
+                value='AAPL'),
+            html.Label("Strike Price"),
+            dcc.Input(id='strike-price', type='number', value=100, step=0.01),
+            html.Label("Time to Maturity (Years)"),
+            dcc.Input(id='time-to-maturity',
+                      type='number', value=1, step=0.01),
+            html.Label("Volatility (σ)"),
+            dcc.Input(id='volatility', type='number', value=0.2, step=0.01),
+            html.Label("Risk-Free Rate (r)"),
+            dcc.Input(id='risk-free-rate', type='number',
+                      value=0.05, step=0.01),
+            html.Br()
         ], width=4)
     ])
 ])
