@@ -48,5 +48,15 @@ app.layout = dbc.Container([
     ])
 ])
 
+
+@app.callback(
+    Output('results', 'children'),
+    Input('calculate-button', 'n_clicks'),
+    Input('stock-dropdown', 'value'),
+    Input('strike-price', 'value'),
+    Input('time-to-maturity', 'value'),
+    Input('volatility', 'value'),
+    Input('risk-free-rate', 'value')
+)
 if __name__ == "__main__":
     app.run_server(debug=True)
