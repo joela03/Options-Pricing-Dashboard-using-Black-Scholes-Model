@@ -34,6 +34,7 @@ def fetch_current_stock_price(ticker):
 
 
 def fetch_risk_free_rate(api_key, interval='daily'):
+    """Fetche's risk free interest rate from Alpha Vantage API"""
     url = f"""https://www.alphavantage.co/query?function=TREASURY_YIELD&interval={
         interval}&apikey={api_key}"""
     response = requests.get(url)

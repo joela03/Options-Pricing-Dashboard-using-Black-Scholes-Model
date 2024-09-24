@@ -5,3 +5,6 @@ yfinance
 alpha_vantage
 pandas
 dotenv
+dash 
+dash-bootstrap-components
+yfinance
