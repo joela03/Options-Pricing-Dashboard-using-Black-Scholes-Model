@@ -4,3 +4,4 @@ requests
 yfinance 
 alpha_vantage
 pandas
+dotenv

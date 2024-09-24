@@ -1,7 +1,10 @@
 """This file contains functions that load data from API's"""
 
+from dotenv import load_dotenv
+import os
 import pandas as pd
 import yfinance as yf
+import requests
 
 
 def read_sp500_table():
@@ -30,6 +33,18 @@ def fetch_current_stock_price(ticker):
         raise ValueError(f"No data found for ticker {ticker}")
 
 
+def fetch_risk_free_rate(api_key, interval='daily'):
+    url = f"""https://www.alphavantage.co/query?function=TREASURY_YIELD&interval={
+        interval}&apikey={api_key}"""
+    response = requests.get(url)
+    data = response.json()
+    rate = data['data'][-1]['value']
+    return float(rate) / 100
+
+
 if __name__ == "__main__":
-    price = fetch_current_stock_price('MM')
-    print(price)
+    load_dotenv()
+    api_key = os.environ['ALPHA_VANTAGE_API_KEY']
+    rate = fetch_risk_free_rate(api_key)
+
+    print(rate)
