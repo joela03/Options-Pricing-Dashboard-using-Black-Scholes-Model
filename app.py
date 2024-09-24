@@ -40,7 +40,11 @@ app.layout = dbc.Container([
                       value=0.05, step=0.01),
             html.Br(),
             html.Button('Calculate', id='calculate-button', n_clicks=0)
-        ], width=4)
+        ], width=4),
+        dbc.Col([
+            html.H3("Results"),
+            html.Div(id='results')
+        ], width=8)
     ])
 ])
 
