@@ -1,2 +1,6 @@
 numpy
 scipy
+requests 
+yfinance 
+alpha_vantage
+pandas
