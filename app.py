@@ -35,7 +35,6 @@ app.layout = dbc.Container([
                       type='number', value=1, step=0.01),
             html.Label("Volatility (σ)"),
             dcc.Input(id='volatility', type='number', value=0.2, step=0.01),
-            html.Label("Risk-Free Rate (r)"),
             html.Br(),
             html.Button('Calculate', id='calculate-button', n_clicks=0)
         ], width=4),
@@ -53,15 +52,15 @@ app.layout = dbc.Container([
     Input('stock-dropdown', 'value'),
     Input('strike-price', 'value'),
     Input('time-to-maturity', 'value'),
-    Input('volatility', 'value'),
-    Input('risk-free-rate', 'value')
+    Input('volatility', 'value')
 )
-def calculate_options_and_greeks(n_clicks, ticker, K, T, sigma, r):
+def calculate_options_and_greeks(n_clicks, ticker, K, T, sigma,):
     if n_clicks == 0:
         return ""
 
     S = fetch_current_stock_price(ticker)
-    r = fetch_risk_free_rate()
+    api_key = os.environ['ALPHA_VANTAGE_API_KEY']
+    r = fetch_risk_free_rate(api_key)
 
     call_price = black_scholes_call(S, K, T, r, sigma)
     put_price = black_scholes_put(S, K, T, r, sigma)
