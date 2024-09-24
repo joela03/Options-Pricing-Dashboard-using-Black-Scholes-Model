@@ -1,4 +1,5 @@
-"""Functions that are involved in the implementation of the black-scholes model"""
+"""This file contains functions that are involved in the implementation
+ of the black-scholes model"""
 
 import numpy as np
 from scipy.stats import norm
