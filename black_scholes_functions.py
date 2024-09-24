@@ -96,3 +96,30 @@ def rho(S, K, T, r, sigma, option_type='call'):
         return K * T * np.exp(-r * T) * norm.cdf(d2)
     elif option_type == 'put':
         return -K * T * np.exp(-r * T) * norm.cdf(-d2)
+
+
+# Test functions
+S = 100
+K = 100
+T = 1
+r = 0.05
+sigma = 0.2
+
+# Calculate option prices
+call_price = black_scholes_call(S, K, T, r, sigma)
+put_price = black_scholes_put(S, K, T, r, sigma)
+
+# Calculate Greeks
+delta_call = delta(S, K, T, r, sigma, option_type='call')
+gamma_value = gamma(S, K, T, r, sigma)
+theta_call = theta(S, K, T, r, sigma, option_type='call')
+vega_value = vega(S, K, T, r, sigma)
+rho_call = rho(S, K, T, r, sigma, option_type='call')
+
+print(f"Call Option Price: {call_price:.2f}")
+print(f"Put Option Price: {put_price:.2f}")
+print(f"Delta (Call): {delta_call:.2f}")
+print(f"Gamma: {gamma_value:.2f}")
+print(f"Theta (Call): {theta_call:.2f}")
+print(f"Vega: {vega_value:.2f}")
+print(f"Rho (Call): {rho_call:.2f}")
