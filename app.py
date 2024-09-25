@@ -20,6 +20,11 @@ sp500_list = read_sp500_table()
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False),  # Tracks the current page's URL
+    html.Div(id='page-content')  # This will hold the layout for each page
+])
+
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([

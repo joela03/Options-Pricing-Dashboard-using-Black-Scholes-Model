@@ -1,7 +1,7 @@
 """This file contains functions that load data from API's"""
 
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 import pandas as pd
 import yfinance as yf
 import requests
@@ -29,8 +29,8 @@ def fetch_current_stock_price(ticker):
     if not recent_data.empty:
         current_price = recent_data['Close'].iloc[-1]
         return current_price
-    else:
-        raise ValueError(f"No data found for ticker {ticker}")
+
+    raise ValueError(f"No data found for ticker {ticker}")
 
 
 def fetch_risk_free_rate(api_key, interval='daily'):
