@@ -21,8 +21,8 @@ sp500_list = read_sp500_table()
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),  # Tracks the current page's URL
-    html.Div(id='page-content')  # This will hold the layout for each page
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content')
 ])
 
 
@@ -48,6 +48,25 @@ def page_1(sp500_list):
         html.Br(),
         dcc.Link(dbc.Button("Submit", color="primary"),
                  href='/results')
+    ])
+
+
+def page_2():
+    return dbc.Container([
+        html.H1("Option Pricing Results"),
+        html.Div(id='results'),
+        dbc.Row([
+            dbc.Col([
+                html.H5("Call Option Price Over Time"),
+                dcc.Graph(id='call-price-over-time')
+            ], width=6),
+            dbc.Col([
+                html.H5("Put Option Price Over Time"),
+                dcc.Graph(id='put-price-over-time')
+            ], width=6)
+        ]),
+        html.Br(),
+        dcc.Link(dbc.Button("Back to Input Page", color="secondary"), href='/')
     ])
 
 
