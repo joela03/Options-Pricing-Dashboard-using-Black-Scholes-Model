@@ -4,7 +4,7 @@ requests
 yfinance 
 alpha_vantage
 pandas
-dotenv
+python-dotenv
 dash 
 dash-bootstrap-components
 yfinance

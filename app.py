@@ -70,68 +70,15 @@ def page_2():
     ])
 
 
-app.layout = dbc.Container([
-    dbc.Row([
-        dbc.Col([
-            html.H1("Option Pricing & Greeks Calculator",
-                    className="text-center"),
-            html.P("Select a stock and enter option parameters to calculate option prices and Greeks.",
-                   className="text-center")
-        ], width=12)
-    ]),
-    html.Hr(),
-    dbc.Row([
-        dbc.Col([
-            html.H5("Option Parameters"),
-            dbc.Card([
-                dbc.CardBody([
-                    html.Label("Select Stock"),
-                    dcc.Dropdown(
-                        id='stock-dropdown',
-                        options=[{'label': stock['name'], 'value': stock['ticker']}
-                                 for stock in sp500_list],
-                        value='AAPL',  # Default value
-                    ),
-                    html.Label("Strike Price"),
-                    dcc.Input(id='strike-price', type='number',
-                              value=100, step=0.01),
-                    html.Label("Time to Maturity (Years)"),
-                    dcc.Input(id='time-to-maturity',
-                              type='number', value=1, step=0.01),
-                    html.Label("Volatility (σ)"),
-                    dcc.Input(id='volatility', type='number',
-                              value=0.2, step=0.01),
-                    html.Label("Risk-Free Rate (r)"),
-                    dcc.Input(id='risk-free-rate', type='number',
-                              value=0.05, step=0.01),
-                    html.Br(),
-                    html.Br(),
-                    dbc.Button("Calculate", id='calculate-button',
-                               color="primary", n_clicks=0)
-                ])
-            ], className="mb-4")
-        ], width=4),
-        dbc.Col([
-            html.H5("Results"),
-            dbc.Card([
-                dbc.CardBody([
-                    html.Div(id='results')
-                ])
-            ])
-        ], width=8)
-    ]),
-    html.Hr(),
-    dbc.Row([
-        dbc.Col([
-            html.H5("Option Call Price Over Time"),
-            dcc.Graph(id='call-price-over-time')
-        ], width=6),
-        dbc.Col([
-            html.H5("Option Put Price Over Time"),
-            dcc.Graph(id='put-price-over-time')
-        ], width=6)
-    ])
-], fluid=True)
+@app.callback(
+    Output('page-content', 'children'),
+    [Input('url', 'pathname')]
+)
+def display_page(pathname):
+    if pathname == '/results':
+        return page_2()
+    else:
+        return page_1(sp500_list)
 
 
 @app.callback(
@@ -142,8 +89,7 @@ app.layout = dbc.Container([
      Input('stock-dropdown', 'value'),
      Input('strike-price', 'value'),
      Input('time-to-maturity', 'value'),
-     Input('volatility', 'value')]
-)
+     Input('volatility', 'value')])
 def calculate_options_and_greeks(n_clicks, ticker, K, T, sigma,):
     if n_clicks == 0:
         return "", go.Figure()

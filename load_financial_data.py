@@ -48,4 +48,4 @@ if __name__ == "__main__":
     api_key = os.environ['ALPHA_VANTAGE_API_KEY']
     rate = fetch_risk_free_rate(api_key)
 
-    print(rate)
+    print(yf.Ticker("AAPL").history(period='5d'))
